@@ -1,9 +1,11 @@
-package DAO.Implementation;
+package DAO.Impl;
 
+import DAO.Implementation.RoleDAOImpl;
+import DAO.Implementation.UserDAOImpl;
 import entity.Role;
 import entity.User;
 
-public class UserDAOImplTest {
+public class UserDaoImplTest {
     private final UserDAOImpl userDAO = new UserDAOImpl();
     private final RoleDAOImpl roleDAO = new RoleDAOImpl();
 
