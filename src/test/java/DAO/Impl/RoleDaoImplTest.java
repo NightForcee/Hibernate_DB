@@ -3,60 +3,74 @@ package DAO.Impl;
 import DAO.Implementation.RoleDAOImpl;
 import DAO.Implementation.UserDAOImpl;
 import entity.Role;
+import entity.User;
+import org.junit.Assert;
 import org.junit.Test;
+
+import java.util.List;
 
 public class RoleDaoImplTest {
     private final UserDAOImpl userDAO = new UserDAOImpl();
     private final RoleDAOImpl roleDAO = new RoleDAOImpl();
+    private Role role;
+    private User user;
 
     @Test
     public void getById() {
+        role = roleDAO.getById(1);
+        Assert.assertNotNull(role);
         System.out.println(roleDAO.getById(1));
     }
 
     @Test
     public void getByName() {
-        System.out.println(roleDAO.getByName("ADMIN"));
+        role = roleDAO.getByName("admin");
+        Assert.assertNotNull(role);
+        System.out.println(roleDAO.getByName(role.getName()));
     }
 
     @Test
     public void create() {
-        Role role = new Role();
         role.setName("Driver");
+        Assert.assertNotNull(role);
         roleDAO.add(role);
     }
 
     @Test
     public void deleteByName() {
-        roleDAO.deleteByName("Driver");
+        role = roleDAO.getByName("Driver");
+        Assert.assertNotNull(role);
+        roleDAO.deleteByName(role.getName());
     }
 
     @Test
     public void delete() {
-        Role role = new Role();
-        role.setName("Driver");
-        roleDAO.add(role);
-        System.out.println("Role Successfully add");
+        role = roleDAO.getByName("Driver");
+        Assert.assertNotNull(role);
+        role.setName("DriverForDelete");
         roleDAO.delete(role);
         System.out.println("Role Successfully delete");
     }
 
-
     @Test
     public void update() {
-        Role role = roleDAO.getById(2);
+        role = roleDAO.getById(2);
+        Assert.assertNotNull(role);
         roleDAO.update(role);
-        System.out.println("Role UPDATE");
     }
 
     @Test
     public void getAll() {
+        List<Role> expected = roleDAO.getAll();
+        Assert.assertNotNull("Don't have roles", expected);
         roleDAO.getAll().forEach(System.out::println);
     }
 
 
     @Test
     public void getAllByUserName() {
-        roleDAO.getAllByUserName("loginAdmin").forEach(System.out::println);
+        user = userDAO.getByName("loginAdmin");
+        Assert.assertNotNull(user);
+        roleDAO.getAllByUserName(user.getLogin()).forEach(System.out::println);
     }
 }

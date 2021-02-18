@@ -2,62 +2,96 @@ package DAO.Impl;
 
 import DAO.Implementation.RoleDAOImpl;
 import DAO.Implementation.UserDAOImpl;
+import DAO.RoleDAO;
+import DAO.UserDAO;
 import entity.Role;
 import entity.User;
+import org.junit.After;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
+
+import java.util.List;
 
 public class UserDaoImplTest {
-    private final UserDAOImpl userDAO = new UserDAOImpl();
-    private final RoleDAOImpl roleDAO = new RoleDAOImpl();
+    private final UserDAO userDAO = new UserDAOImpl();
+    private final RoleDAO roleDAO = new RoleDAOImpl();
+    private User user;
+    private Role role;
 
-    @org.junit.Test
-    public void getById() {
-        System.out.println(userDAO.getByIb(1));
+    @Before
+    public void setUp() {
+        System.out.println("-------------------------------------------------");
     }
 
-    @org.junit.Test
-    public void getByName() {
-        System.out.println(userDAO.getByName("loginUser"));
+    @Test
+    public void newUser_PASSWORD_ZERO() {
+        for (User user : userDAO.getAll()) {
+            if (user.getPassword() != null && user.getPassword().isEmpty()) {
+                Assert.fail("The password must not be empty");
+            }
+        }
     }
 
-    @org.junit.Test
+    @Test
     public void add() {
-        User user = new User();
-        user.setLogin("TestForDelete");
-        user.setPassword("test");
-        userDAO.add(user);
-    }
-
-    @org.junit.Test
-    public void delete() {
-        User user = new User();
-        user.setLogin("TestForDelete");
-        user.setPassword("test");
-        userDAO.add(user);
-        Role role = roleDAO.getById(2);
+        user = new User("TEST_BY_JUNIT", "TEST_PASS_JUNIT");
+        Assert.assertNotNull("User is not initialize", user);
         user.addRole(role);
-        userDAO.update(user);
-        System.out.println("UPDATE user");
-
-        userDAO.delete(user);
-        System.out.println("DELETE user");
+        userDAO.add(user);
     }
 
-
-    @org.junit.Test
+    @Test
     public void update() {
-        User user = userDAO.getByIb(1);
-        Role role = roleDAO.getById(2);
+        user = userDAO.getByName("TEST_BY_JUNIT");
+        role = roleDAO.getByName("user");
+        Assert.assertNotNull("User is not initialize", user);
+        Assert.assertNotNull("Role is not initialize", role);
+
+        String expected = "user";
+        Assert.assertEquals(expected, role.getName());
+        user.setPassword("12345");
         user.addRole(role);
         userDAO.update(user);
     }
 
-    @org.junit.Test
-    public void getAll() {
+    @Test
+    public void getById() {
+        user = userDAO.getByIb(1);
+        Assert.assertNotNull("User is not initialize", user);
+        System.out.println(userDAO.getByIb(user.getId()));
+    }
+
+    @Test
+    public void getByName() {
+        user = userDAO.getByIb(1);
+        Assert.assertNotNull("User is not initialize", user);
+        System.out.println(userDAO.getByName(user.getLogin()));
+    }
+
+    @Test
+    public void delete() {
+        user = userDAO.getByName("TEST_BY_JUNIT");
+        Assert.assertNotNull("User is not initialize", user);
+        userDAO.delete(user);
+    }
+
+    @Test
+    public void getAllUsers_NO_NULL() {
+        List<User> expected = userDAO.getAll();
+        Assert.assertNotNull(expected);
         userDAO.getAll().forEach(System.out::println);
     }
 
-    @org.junit.Test
+    @Test
     public void getAllByRoleName() {
-        userDAO.getAllByRoleName("USER").forEach(System.out::println);
+        List<User> expected = userDAO.getAllByRoleName("user");
+        Assert.assertNotNull(expected);
+        userDAO.getAllByRoleName("user").forEach(System.out::println);
+    }
+
+    @After
+    public void closeSetUp() {
+        System.out.println("-------------------------------------------------");
     }
 }
