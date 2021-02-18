@@ -25,20 +25,20 @@ public class UserDaoImplTest {
     }
 
     @Test
-    public void newUser_PASSWORD_ZERO() {
-        for (User user : userDAO.getAll()) {
-            if (user.getPassword() != null && user.getPassword().isEmpty()) {
-                Assert.fail("The password must not be empty");
-            }
-        }
-    }
-
-    @Test
-    public void add() {
-        user = new User("TEST_BY_JUNIT", "TEST_PASS_JUNIT");
+    public void addAndUpdateAndDelete_NOT_NULL_USER() {
+        user = new User("LoginWithNullPass","12345");
         Assert.assertNotNull("User is not initialize", user);
+        role = roleDAO.getByName("user");
+        Assert.assertNotNull("User is not initialize", role);
+        String expected = "user";
+        Assert.assertEquals(expected,role.getName());
         user.addRole(role);
         userDAO.add(user);
+
+        user.setPassword("12345");
+        userDAO.update(user);
+
+        userDAO.delete(user);
     }
 
     @Test
@@ -56,6 +56,19 @@ public class UserDaoImplTest {
     }
 
     @Test
+    public void AddAndDeleteUser() {
+        user = new User("userForSafeAndDelete", "12345");
+        Assert.assertNotNull("User is not initialize", user);
+        role = roleDAO.getByName("user");
+        Assert.assertNotNull("Role is not initialize", role);
+        user.addRole(role);
+        userDAO.add(user);
+
+        Assert.assertNotNull("User is not initialize", user);
+        userDAO.delete(user);
+    }
+
+    @Test
     public void getById() {
         user = userDAO.getByIb(1);
         Assert.assertNotNull("User is not initialize", user);
@@ -67,13 +80,6 @@ public class UserDaoImplTest {
         user = userDAO.getByIb(1);
         Assert.assertNotNull("User is not initialize", user);
         System.out.println(userDAO.getByName(user.getLogin()));
-    }
-
-    @Test
-    public void delete() {
-        user = userDAO.getByName("TEST_BY_JUNIT");
-        Assert.assertNotNull("User is not initialize", user);
-        userDAO.delete(user);
     }
 
     @Test
