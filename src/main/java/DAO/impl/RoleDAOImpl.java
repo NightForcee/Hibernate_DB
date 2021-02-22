@@ -1,4 +1,4 @@
-package DAO.Implementation;
+package DAO.impl;
 
 import DAO.RoleDAO;
 import entity.Role;
