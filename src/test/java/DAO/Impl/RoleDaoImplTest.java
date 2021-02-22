@@ -1,7 +1,7 @@
 package DAO.Impl;
 
-import DAO.Implementation.RoleDAOImpl;
-import DAO.Implementation.UserDAOImpl;
+import DAO.impl.RoleDAOImpl;
+import DAO.impl.UserDAOImpl;
 import entity.Role;
 import entity.User;
 import org.junit.Assert;

@@ -1,10 +1,10 @@
 package servlets;
 
-import DAO.Implementation.RoleDAOImpl;
+import DAO.impl.RoleDAOImpl;
 import DAO.RoleDAO;
 import entity.Role;
 import servlets.util.UserUtils;
-import servlets.util.impl.UserUtilsImpl;
+import servlets.util.UserUtilsImpl;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;

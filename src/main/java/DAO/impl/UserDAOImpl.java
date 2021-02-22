@@ -1,4 +1,4 @@
-package DAO.Implementation;
+package DAO.impl;
 
 import DAO.UserDAO;
 import entity.User;
@@ -35,13 +35,14 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public void add(User user) {
+    public User add(User user) {
         Session session = sessionFactory.openSession();
         session.beginTransaction();
         session.save(user);
         System.out.println("Add User in DB Successfully!");
         session.getTransaction().commit();
         session.close();
+        return user;
     }
 
     @Override

@@ -1,12 +1,11 @@
-package servlets.util.impl;
+package servlets.util;
 
-import DAO.Implementation.UserDAOImpl;
 import DAO.UserDAO;
+import DAO.impl.UserDAOImpl;
 import entity.User;
-import servlets.util.UserUtils;
 
 public class UserUtilsImpl implements UserUtils {
-    private final UserDAO userDAO = new UserDAOImpl();
+    UserDAO userDAO = new UserDAOImpl();
 
     @Override
     public boolean userIsExists(String userName, String userPassword) {
